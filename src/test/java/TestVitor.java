@@ -64,7 +64,7 @@ public class TestVitor {
 	
 	@Test
 	public void cenarioDois() {
-		System.out.println("vitor");
+		System.out.println("vitor binsfeld");
 	}
 	
 }
