@@ -1,4 +1,5 @@
-package br.userblog.StepDefinition;
+package br.userblog.utils;
+import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.request;
 import static org.junit.Assert.assertTrue;
 import java.util.List;
@@ -18,8 +19,9 @@ public class CommonMethods {
 	}
 	
 	public static String getUserId(String userName) {
+		baseURI = "https://jsonplaceholder.typicode.com";
 		String name = userName;
-		Response responseUser = request(Method.GET, "https://jsonplaceholder.typicode.com/users?username=" + name);
+		Response responseUser = request(Method.GET, "/users?username=" + name);
 		JsonPath jsonPathEvaluatorUser = responseUser.jsonPath();			
 		String id = jsonPathEvaluatorUser.get("id").toString();
 		id = id.replaceAll("[\\[\\](){}]","");
@@ -27,24 +29,24 @@ public class CommonMethods {
 	}
 	
 	public static List<Integer> getPostsFromUser(String id) {
+		baseURI = "https://jsonplaceholder.typicode.com";
 		String idFromUser = id;
-		Response responseUserPosts = request(Method.GET, "https://jsonplaceholder.typicode.com/posts?userId=" + idFromUser);
+		Response responseUserPosts = request(Method.GET, "/posts?userId=" + idFromUser);
 		JsonPath jsonPathEvaluatorUserPosts = responseUserPosts.jsonPath();
 		List<Integer> allUserPosts = jsonPathEvaluatorUserPosts.getList("id");
 		return allUserPosts;
 	}
 	
-	public static void validateEmailFromUser(List<Integer> allUserPosts) {
+	public static void validateEmailsFromComment(List<Integer> allUserPosts) {
+		baseURI = "https://jsonplaceholder.typicode.com";
 		for(Integer postId : allUserPosts) {
-			System.out.println(postId);
-			Response responseCommentsEmail = RestAssured.request(Method.GET, "https://jsonplaceholder.typicode.com/comments?postId="+postId);
+			Response responseCommentsEmail = RestAssured.request(Method.GET, "/comments?postId="+postId);
 			JsonPath jsonPathEvaluatorCommentsEmail = responseCommentsEmail.jsonPath();
 			List<String> allComments = jsonPathEvaluatorCommentsEmail.getList("email");
 				for(String comment : allComments) { 
-					System.out.println(comment);
 					String emailAddress = comment;
 					String regexPattern = "^(.+)@(\\S+)$";
-					assertTrue("E-mail from the ", patternMatches(emailAddress, regexPattern));
+					assertTrue("E-mail is not valid", patternMatches(emailAddress, regexPattern));
 				}
 		}
 	}
