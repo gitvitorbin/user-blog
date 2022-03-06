@@ -2,8 +2,10 @@ package br.userblog.utils;
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.request;
 import static org.junit.Assert.assertTrue;
+
 import java.util.List;
 import java.util.regex.Pattern;
+
 import io.restassured.RestAssured;
 import io.restassured.http.Method;
 import io.restassured.path.json.JsonPath;

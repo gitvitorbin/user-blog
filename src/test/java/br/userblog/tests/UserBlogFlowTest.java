@@ -2,7 +2,9 @@ package br.userblog.tests;
 
 
 import java.util.List;
+
 import org.junit.Test;
+
 import br.userblog.utils.CommonMethods;
 
 

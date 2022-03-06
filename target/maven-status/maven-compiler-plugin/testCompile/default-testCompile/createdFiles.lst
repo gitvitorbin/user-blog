@@ -1,1 +1,4 @@
-TestVitor.class
+br\userblog\tests\UserBlogFlowTest.class
+br\userblog\tests\UserBlogBasicTest.class
+br\userblog\testsuite\TestSuite.class
+br\userblog\utils\CommonMethods.class

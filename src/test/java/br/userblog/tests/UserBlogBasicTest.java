@@ -1,11 +1,14 @@
 package br.userblog.tests;
 
-import org.hamcrest.Matchers;
-import org.junit.*;
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+
+import org.hamcrest.Matchers;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -18,7 +21,7 @@ import io.restassured.specification.ResponseSpecification;
  *   Exercise: 
  *   1. Search for the user with user name “Delphine”.
  *   2. Use the details fetched to make a search for the posts written by the user.
- *   3. For each post, fetch the comments and validate if the emails in the comment section are in the proper format.
+ *   3. For each post, fetch the comments and validate if the e-mails in the comment section are in the proper format.
  */
 
 
