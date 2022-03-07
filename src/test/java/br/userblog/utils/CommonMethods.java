@@ -1,4 +1,5 @@
 package br.userblog.utils;
+
 import static io.restassured.RestAssured.baseURI;
 import static io.restassured.RestAssured.request;
 import static org.junit.Assert.assertTrue;
@@ -13,12 +14,6 @@ import io.restassured.response.Response;
 
 
 public class CommonMethods {
-	
-	public static boolean patternMatches(String emailAddress, String regexPattern) {
-	    return Pattern.compile(regexPattern)
-	      .matcher(emailAddress)
-	      .matches();
-	}
 	
 	public static String getUserId(String userName) {
 		baseURI = "https://jsonplaceholder.typicode.com";
@@ -39,18 +34,26 @@ public class CommonMethods {
 		return allUserPosts;
 	}
 	
-	public static void validateEmailsFromComment(List<Integer> allUserPosts) {
+	public static boolean patternMatches(String emailAddress, String regexPattern) {
+	    return Pattern.compile(regexPattern)
+	      .matcher(emailAddress)
+	      .matches();
+	}
+	
+	public static boolean validateEmailsFromCommentators(List<Integer> allUserPosts) {
 		baseURI = "https://jsonplaceholder.typicode.com";
+		String regexPattern = "^(.+)@(\\S+)$";
+		
 		for(Integer postId : allUserPosts) {
 			Response responseCommentsEmail = RestAssured.request(Method.GET, "/comments?postId="+postId);
 			JsonPath jsonPathEvaluatorCommentsEmail = responseCommentsEmail.jsonPath();
-			List<String> allComments = jsonPathEvaluatorCommentsEmail.getList("email");
-				for(String comment : allComments) { 
-					String emailAddress = comment;
-					String regexPattern = "^(.+)@(\\S+)$";
-					assertTrue("E-mail is not valid", patternMatches(emailAddress, regexPattern));
+			List<String> allEmails = jsonPathEvaluatorCommentsEmail.getList("email");
+				for(String email : allEmails) { 
+					String emailFromComments = email;
+					assertTrue("E-mail is not valid", patternMatches(emailFromComments, regexPattern));
 				}
 		}
+		return true;
 	}
 
 }
